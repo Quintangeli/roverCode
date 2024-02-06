@@ -1,0 +1,180 @@
+//Quintangeli
+//How to drive the Rover forward and backward
+//wire as shown in instruction manual
+
+#define ENB 5
+#define IN1 7
+#define IN2 8
+#define IN3 9
+#define IN4 11
+#define ENA 6
+
+
+void setup() {
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+  pinMode(ENA, OUTPUT);
+  pinMode(ENB, OUTPUT);
+  stopAll();
+}
+
+void loop() {
+  //**********option 1 for driving**********
+  rotate1('r', 150);
+  delay(2000);
+  stopAll();
+  delay(500);
+  rotate1('l', 150);
+  delay(2000);
+  stopAll();
+  delay(5000);
+
+  //**********option 2 for driving**********
+  turnRight2(150);
+  delay(2000);
+  stopAll();
+  delay(500);
+  turnLeft2(150);
+  delay(2000);
+  stopAll();
+  delay(5000);
+
+  //**********option 3 for driving**********
+  Speed3(150);
+  turnRight3();
+  delay(2000);
+  stopAll();
+  delay(500);
+  turnLeft3();
+  delay(2000);
+  stopAll();
+  delay(5000);
+
+}
+
+void stopAll() {
+  analogWrite(ENB, 0);
+  analogWrite(ENA, 0);
+}
+
+//**********option 1 for driving**********
+void drive1(char direct, int power) {
+  analogWrite(ENB, power);
+  analogWrite(ENA, power);
+  if (direct == 'r') {
+    digitalWrite(IN1, HIGH);
+    digitalWrite(IN2, LOW);
+    digitalWrite(IN3, LOW);
+    digitalWrite(IN4, HIGH);
+
+  } else if (direct == 'f') {
+    digitalWrite(IN1, LOW);
+    digitalWrite(IN2, HIGH);
+    digitalWrite(IN3, HIGH);
+    digitalWrite(IN4, LOW);
+
+  }
+}
+
+void rotate1(char direct, int power) {
+  if (power <= 150) {
+    power = 150;
+  } else if (power >= 255) {
+    power = 255;
+  }
+  analogWrite(ENB, power);
+  analogWrite(ENA, power);
+  if (direct == 'r') {
+    digitalWrite(IN1, HIGH);   //left wheel f
+    digitalWrite(IN2, LOW);    //left wheel f
+    digitalWrite(IN3, HIGH);   //right wheel r
+    digitalWrite(IN4, LOW);    //right wheel r
+  } else if (direct == 'l') {
+    digitalWrite(IN1, LOW);     //left wheel r
+    digitalWrite(IN2, HIGH);    //left wheel r
+    digitalWrite(IN3, LOW);     //right wheel f
+    digitalWrite(IN4, HIGH);    //right wheel f
+  }
+}
+
+//**********option 2 for driving**********
+void reverse2(int power) {
+  analogWrite(ENB, power);
+  analogWrite(ENA, power);
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+}
+
+void forward2(int power) {
+  analogWrite(ENB, power);
+  analogWrite(ENA, power);
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}
+
+void turnRight2(int power) {
+  if (power <= 150) {
+    power = 150;
+  } else if (power >= 255) {
+    power = 255;
+  }
+  analogWrite(ENB, power);
+  analogWrite(ENA, power);
+  digitalWrite(IN1, HIGH);   //left wheel f
+  digitalWrite(IN2, LOW);    //left wheel f
+  digitalWrite(IN3, HIGH);   //right wheel r
+  digitalWrite(IN4, LOW);    //right wheel r
+}
+
+void turnLeft2(int power) {
+  if (power <= 150) {
+    power = 150;
+  } else if (power >= 255) {
+    power = 255;
+  }
+  analogWrite(ENB, power);
+  analogWrite(ENA, power);
+  digitalWrite(IN1, LOW);     //left wheel r
+  digitalWrite(IN2, HIGH);    //left wheel r
+  digitalWrite(IN3, LOW);     //right wheel f
+  digitalWrite(IN4, HIGH);    //right wheel f
+}
+
+//**********option 3 for driving**********
+void Speed3(int power) {
+  analogWrite(ENB, power);
+  analogWrite(ENA, power);
+}
+void reverse3() {
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+}
+
+void forward3() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}
+
+void turnRight3() {
+  digitalWrite(IN1, HIGH);   //left wheel f
+  digitalWrite(IN2, LOW);    //left wheel f
+  digitalWrite(IN3, HIGH);   //right wheel r
+  digitalWrite(IN4, LOW);    //right wheel r
+}
+
+void turnLeft3() {
+  digitalWrite(IN1, LOW);     //left wheel r
+  digitalWrite(IN2, HIGH);    //left wheel r
+  digitalWrite(IN3, LOW);     //right wheel f
+  digitalWrite(IN4, HIGH);    //right wheel f
+}
